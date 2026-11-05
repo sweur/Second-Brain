@@ -33,14 +33,14 @@ canvas{width:100%;display:block}
 <div class="col">
  <div class="card"><canvas id="flow"></canvas></div>
  <div class="card"><div id="tiles">
-  <div class="t"><b id="t1">–</b><span>context used</span></div><div class="t"><b id="t2">–</b><span>tok/s</span></div>
-  <div class="t"><b id="t3">–</b><span>latency ms</span></div><div class="t"><b id="t4">–</b><span>prompt tok</span></div>
+  <div class="t"><b id="t1">–</b><span>context window</span></div><div class="t"><b id="t2">–</b><span>tok/s</span></div>
+  <div class="t"><b id="t3">–</b><span>latency</span></div><div class="t"><b id="t4">–</b><span>prompt tok</span></div>
   <div class="t"><b id="t5">–</b><span>output tok</span></div><div class="t"><b id="t6">–</b><span>notes hit</span></div></div>
   <div id="bar"><div id="fill"></div></div></div>
  <div class="card"><div class="dim">last 40 runs · bars = prompt (cyan) + output (pink) tokens · line = tok/s</div><canvas id="an" style="height:130px"></canvas><div id="sum" class="dim"></div></div>
 </div>
 <div class="col"><div class="card">
- <input id="q" type="text" placeholder="Ask your second brain…" autocomplete="off">
+ <input id="q" type="text" placeholder="Ask your model..." autocomplete="off">
  <button id="ask">ask</button>
  <div id="hits"></div><div id="out"></div></div></div>
 </main>
@@ -90,5 +90,5 @@ async function stats(){try{const s=await(await fetch('/api/stats')).json();runs=
  const tt=runs.reduce((a,r)=>a+r[3]+r[4],0),av=runs.length?runs.reduce((a,r)=>a+r[6],0)/runs.length:0;$('sum').textContent=`${runs.length} runs · ${fmt(tt)} tokens · avg ${av.toFixed(1)} tok/s`}catch(e){}}
 (async()=>{size();draw();stats();
  try{const m=await(await fetch('/api/models')).json();if(m.error)throw 0;$('model').innerHTML=m.map(x=>`<option>${x}</option>`).join('')||'<option>no models – run ollama pull</option>'}
- catch(e){$('model').innerHTML='<option>Ollama not reachable</option>'}})();
+ catch(e){$('model').innerHTML='<option>Ollama not reachable. Check if its running on port 11434</option>'}})();
 </script></body></html>
